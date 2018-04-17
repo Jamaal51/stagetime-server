@@ -48,6 +48,12 @@ public func routes(_ router: Router) throws {
     router.get("todos", use: todoController.index)
     router.post("todos", use: todoController.create)
     router.delete("todos", Todo.parameter, use: todoController.delete)
+
+    // Configure StageTimeEvent Controller
+    let stageTimeController = StageTimeEventsController()
+    router.post("stageTime", use: stageTimeController.create)
+    router.get("stageTime", "all", use: stageTimeController.index)
+    router.delete("stageTime", StageTimeEvent.parameter, use: stageTimeController.delete)
 }
 
 struct InfoData: Content {

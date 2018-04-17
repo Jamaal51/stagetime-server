@@ -5,25 +5,28 @@
 //  Created by Jamaal Sedayao on 4/17/18.
 //
 
-import Foundation
 import FluentSQLite
 import Vapor
 
-final class StageTime: SQLiteModel {
+final class StageTimeEvent: SQLiteModel {
     var id: Int?
     var title: String
+    var type: String
+    var stageTime: Int
 
-    init(id: Int? = nil, title: String) {
+    init(id: Int? = nil, title: String, type: String, stageTime: Int) {
         self.id = id
         self.title = title
+        self.type = type
+        self.stageTime = stageTime
     }
 }
 
 /// Allows `StageTime` to be used as a dynamic migration.
-extension StageTime: Migration { }
+extension StageTimeEvent: Migration { }
 
 /// Allows `StageTime` to be encoded to and decoded from HTTP messages.
-extension StageTime: Content { }
+extension StageTimeEvent: Content { }
 
 /// Allows `StageTime` to be used as a dynamic parameter in route definitions.
-extension StageTime: Parameter { }
+extension StageTimeEvent: Parameter { }
