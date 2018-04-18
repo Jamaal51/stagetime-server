@@ -9,6 +9,8 @@ public func configure(
     _ env: inout Environment,
     _ services: inout Services
 ) throws {
+    /// Adding Services for Vapor are for adding in functionality
+
     /// Register providers first
     try services.register(FluentSQLiteProvider())
 
@@ -41,7 +43,6 @@ public func configure(
 
     /// Configure migrations
     var migrations = MigrationConfig()
-    migrations.add(model: Todo.self, database: .sqlite)
     migrations.add(model: StageTimeEvent.self, database: .sqlite)
     services.register(migrations)
 
