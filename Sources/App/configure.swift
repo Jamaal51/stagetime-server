@@ -43,7 +43,7 @@ public func configure(
 
     /// Configure migrations
     var migrations = MigrationConfig()
-    migrations.add(model: StageTimeEvent.self, database: .sqlite)
+    migrations.add(model: Event.self, database: .sqlite)
+    migrations.add(model: User.self, database: .sqlite)
     services.register(migrations)
-
 }

@@ -6,6 +6,9 @@ import Vapor
 /// [Learn More →](https://docs.vapor.codes/3.0/getting-started/structure/#routesswift)
 public func routes(_ router: Router) throws {
     // Configure StageTimeEvent Controller
-    let stageTimeController = StageTimeEventsController()
-    try router.register(collection: stageTimeController)
+    let eventsController = EventsController()
+    try router.register(collection: eventsController)
+
+    let userController = UserController()
+    try router.register(collection: userController)
 }
