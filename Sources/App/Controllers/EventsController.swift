@@ -1,4 +1,5 @@
 import Vapor
+import Fluent
 
 // Controllers basic CRUD operations on StageTime class
 // Used to handle
@@ -13,6 +14,7 @@ final class EventsController: RouteCollection {
         stageTimeRoute.get(Event.parameter, use: getEvent)
         stageTimeRoute.put(Event.parameter, use: updateEvent)
         stageTimeRoute.get(Event.parameter, "host", use: getHost)
+        stageTimeRoute.get("search", use: search)
     }
 
     func create(_ req: Request) throws -> Future<Event> {
@@ -48,5 +50,15 @@ final class EventsController: RouteCollection {
         return try req.parameter(Event.self).flatMap(to: User.self) { event in
             return try event.host.get(on: req)
         }
+    }
+
+    func search(_ req: Request) throws -> Future<[Event]> {
+        guard let searchTerm = req.query[String.self, at: "term"] else {
+            throw Abort(.badRequest, reason: "Missing search term in request")
+        }
+        return try Event.query(on: req).group(.or) { or in
+            try or.filter(\.title == searchTerm)
+            try or.filter(\.type == searchTerm)
+        }.all()
     }
 }

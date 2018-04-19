@@ -1,4 +1,4 @@
-import FluentSQLite
+import FluentMySQL
 import Vapor
 
 /// Called before your application initializes.
@@ -12,7 +12,7 @@ public func configure(
     /// Adding Services for Vapor are for adding in functionality
 
     /// Register providers first
-    try services.register(FluentSQLiteProvider())
+    try services.register(FluentMySQLProvider())
 
     /// Register routes to the router
     let router = EngineRouter.default()
@@ -27,23 +27,16 @@ public func configure(
     services.register(middlewares)
 
     // Configure a SQLite database
-    let sqlite: SQLiteDatabase
-    if env.isRelease {
-        /// Create file-based SQLite db using $SQLITE_PATH from process env
-        sqlite = try SQLiteDatabase(storage: .file(path: Environment.get("SQLITE_PATH")!))
-    } else {
-        /// Create an in-memory SQLite database
-        sqlite = try SQLiteDatabase(storage: .memory)
-    }
-
-    /// Register the configured SQLite database to the database config.
     var databases = DatabaseConfig()
-    databases.add(database: sqlite, as: .sqlite)
+    let mysqlConfig = MySQLDatabaseConfig(hostname: "localhost", port: 8080, username: "stagetime-server", password: "stagetime", database: "vapor")
+    let database = MySQLDatabase(config: mysqlConfig)
+    /// Register the configured SQLite database to the database config.
+    databases.add(database: database, as: .mysql)
     services.register(databases)
 
     /// Configure migrations
     var migrations = MigrationConfig()
-    migrations.add(model: Event.self, database: .sqlite)
-    migrations.add(model: User.self, database: .sqlite)
+    migrations.add(model: Event.self, database: .mysql)
+    migrations.add(model: User.self, database: .mysql)
     services.register(migrations)
 }

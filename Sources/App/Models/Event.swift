@@ -1,15 +1,8 @@
-//
-//  StageTime.swift
-//  App
-//
-//  Created by Jamaal Sedayao on 4/17/18.
-//
-
 import Foundation
-import FluentSQLite
+import FluentMySQL
 import Vapor
 
-final class Event: SQLiteUUIDModel {
+final class Event: MySQLUUIDModel {
     var id: UUID?
     var title: String
     var type: String

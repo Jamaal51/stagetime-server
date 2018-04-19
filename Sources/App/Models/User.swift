@@ -1,13 +1,6 @@
-//
-//  User.swift
-//  App
-//
-//  Created by Jamaal Sedayao on 4/18/18.
-//
-
 import Foundation
 import Vapor
-import FluentSQLite
+import FluentMySQL
 
 final class User: Codable {
     var id: UUID?
@@ -20,7 +13,7 @@ final class User: Codable {
     }
 }
 
-extension User: SQLiteUUIDModel {}
+extension User: MySQLUUIDModel {}
 extension User: Content {}
 extension User: Migration {}
 extension User: Parameter {}
